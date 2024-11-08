@@ -1,5 +1,9 @@
 package fr.virtualmagpie;
 
+import fr.virtualmagpie.board.Board;
+import fr.virtualmagpie.board.HexBoard;
+import fr.virtualmagpie.board.RectBoard;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int HEIGHT = 800;
     final int FPS = 60;
     Thread gameThread;
-    Board board = new Board();
+    Board board = new HexBoard();
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
