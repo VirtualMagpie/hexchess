@@ -2,6 +2,7 @@ package fr.virtualmagpie;
 
 import javax.swing.*;
 
+// Based on this tuto: https://www.youtube.com/watch?v=jzCxywhTAUI
 public class Main {
     public static void main(String[] args) {
 
@@ -16,5 +17,7 @@ public class Main {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gp.launchGame();
     }
 }
