@@ -1,5 +1,8 @@
 package fr.virtualmagpie.board;
 
+import fr.virtualmagpie.board.shape.HexagonProvider;
+import fr.virtualmagpie.board.shape.ShapeProvider;
+
 import java.awt.*;
 
 /**
@@ -7,73 +10,45 @@ import java.awt.*;
  */
 public class HexBoard implements Board {
 
-    final int MAX_COL = 8;
-    final int MAX_ROW = 8;
+    private static final Color BLACK = new Color(50, 50, 50);
+    private static final Color GRAY = new Color(135, 135, 135);
+    private static final Color WHITE = new Color(220, 220, 220);
+    private static final int MAX_COL = 6;
+    private static final int MAX_ROW = 11;
+    private static final int HEX_WIDTH = 88; // size of full hex width (so 2x side size)
+    private static final int HEX_HEIGHT = ((Double) ((Math.sqrt(3D) / 2) * HEX_WIDTH)).intValue();
 
-    public static final int BASE_SIZE = 100;
-    public static final int HEX_SIDE_SIZE = BASE_SIZE / 2;
-    public static final int HEX_HALF_HEIGHT_SIZE = ((Double) ((Math.sqrt(3D) / 2) * HEX_SIDE_SIZE)).intValue();
+    private final ShapeProvider[][][] biGridShapes;
 
-    private final Color BLACK = new Color(50, 50, 50);
-    private final Color GRAY = new Color(135, 135, 135);
-    private final Color WHITE = new Color(220, 220, 220);
-
-    private final Color TEST_COLOR = new Color(255, 0, 0);
-    private final int TEST_COL = 3;
-    private final int TEST_ROW = 1;
+    public HexBoard() {
+        this.biGridShapes = buildBiGridShapes(MAX_COL, MAX_ROW, HEX_WIDTH, HEX_HEIGHT, new Color[]{BLACK, GRAY, WHITE});
+    }
 
     public void draw(Graphics2D g2) {
-        for (int row = 0; row < MAX_ROW; row++) {
-            for (int col = 0; col < MAX_COL; col++) {
-                // alt false
-                g2.setColor(colorFromCoordinate(false, row, col));
-                g2.fillPolygon(hexFromCoordinate(false, row, col));
-                // alt true
-                g2.setColor(colorFromCoordinate(true, row, col));
-                g2.fillPolygon(hexFromCoordinate(true, row, col));
+        for (ShapeProvider[][] gridShapes: biGridShapes) {
+            for (ShapeProvider[] rowShapes: gridShapes) {
+                for (ShapeProvider shape: rowShapes) {
+                    g2.setColor(shape.getColor());
+                    g2.fillPolygon(shape.getPolygon());
+                }
             }
         }
     }
 
-    // TODO JDE: maybe invert row/col
-    /*
-     *            *********              "Up" row
-     *          *           *
-     *        *               *
-     *      *                   *        "Mid" row
-     *        *               *
-     *          *           *
-     *            *********              "Bot" row
-     *
-     *    "ExtL"  "L"     "R"  "ExtR"
-     *      col   col     col   col
-     */
-    private Polygon hexFromCoordinate(boolean alt, int row, int col) {
-
-        int xExtL = col * (BASE_SIZE + HEX_SIDE_SIZE) + (alt ? HEX_SIDE_SIZE * 3 / 2 : 0);
-        int xL = xExtL + HEX_SIDE_SIZE / 2;
-        int xR = xExtL + HEX_SIDE_SIZE + HEX_SIDE_SIZE / 2;
-        int xExtR = xExtL + 2 * HEX_SIDE_SIZE;
-
-        int yUp = row * 2 * HEX_HALF_HEIGHT_SIZE + (alt ? HEX_HALF_HEIGHT_SIZE : 0);
-        int yMid = yUp + HEX_HALF_HEIGHT_SIZE;
-        int yBot = yUp + 2 * HEX_HALF_HEIGHT_SIZE;
-
-        int[] xPoints = { xExtL, xL, xR, xExtR, xR, xL };
-        int[] yPoints = { yMid, yUp, yUp, yMid, yBot, yBot };
-
-        return new Polygon(xPoints, yPoints, 6);
-    }
-
-    private Color colorFromCoordinate(boolean alt, int row, int col) {
-        int baseCycle = (alt ? row + 2 : row) % 3;
-
-        if (baseCycle == 0) {
-            return BLACK;
-        } else if (baseCycle == 1) {
-            return GRAY;
-        } else {
-            return WHITE;
+    private ShapeProvider[][][] buildBiGridShapes(int nbCol, int nbRow, int hexWidth, int hexHeight, Color[] colors) {
+        ShapeProvider[][][] biGridShapes = new ShapeProvider[2][nbCol][nbRow];
+        for (int alt = 0; alt < 2; alt++) {
+            for (int col = 0; col < nbCol; col++) {
+                for (int row = 0; row < nbRow; row++) {
+                    biGridShapes[alt][col][row] = new HexagonProvider(
+                            col * (3 * hexWidth / 2) + alt * (3 * hexWidth / 4),
+                            row * hexHeight + alt * (hexHeight / 2),
+                            hexWidth, hexHeight,
+                            colors[(row - alt + 3) % 3]
+                    );
+                }
+            }
         }
+        return biGridShapes;
     }
 }

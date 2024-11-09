@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    public static final int WIDTH = 1100;
-    public static final int HEIGHT = 800;
+    public static final int WIDTH = 1600;
+    public static final int HEIGHT = 900;
     final int FPS = 60;
     Thread gameThread;
     Board board = new HexBoard();
