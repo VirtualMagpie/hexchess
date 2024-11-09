@@ -8,11 +8,13 @@ import java.awt.*;
 
 /**
  * {@see https://en.wikipedia.org/wiki/Hexagonal_Efficient_Coordinate_System}
+ *
+ * <p>
  */
 public class HexBoard implements Board {
 
-    private static final int MAX_COL = 6;
-    private static final int MAX_ROW = 11;
+    private static final int MAX_COL = 4;
+    private static final int MAX_ROW = 7;
     private static final int HEX_WIDTH = 88; // size of full hex width (so 2x side size)
     private static final int HEX_HEIGHT = ((Double) ((Math.sqrt(3D) / 2) * HEX_WIDTH)).intValue();
 
