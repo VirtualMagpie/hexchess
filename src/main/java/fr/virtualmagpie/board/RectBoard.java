@@ -1,5 +1,6 @@
 package fr.virtualmagpie.board;
 
+import fr.virtualmagpie.board.color.ColorTheme;
 import fr.virtualmagpie.board.shape.RectangleProvider;
 import fr.virtualmagpie.board.shape.ShapeProvider;
 
@@ -7,16 +8,14 @@ import java.awt.*;
 
 public class RectBoard implements Board {
 
-    private static final Color BLACK = new Color(175, 115, 70);
-    private static final Color WHITE = new Color(210, 165, 125);
-    private static final int MAX_COL = 8;
-    private static final int MAX_ROW = 8;
+    private static final int NB_SQUARE_PER_SIDE = 8;
     private static final int SQUARE_SIZE = 100;
 
     private final ShapeProvider[][] gridShapes;
 
-    public RectBoard() {
-        gridShapes = buildGridShapes(MAX_COL, MAX_ROW, SQUARE_SIZE, new Color[]{ BLACK, WHITE });
+    public RectBoard(ColorTheme colorTheme) {
+        gridShapes = buildGridShapes(NB_SQUARE_PER_SIDE, NB_SQUARE_PER_SIDE, SQUARE_SIZE,
+                new Color[]{ colorTheme.primary(), colorTheme.secondary() });
     }
 
     public void draw(Graphics2D g2) {

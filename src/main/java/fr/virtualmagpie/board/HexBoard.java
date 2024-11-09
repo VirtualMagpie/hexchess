@@ -1,5 +1,6 @@
 package fr.virtualmagpie.board;
 
+import fr.virtualmagpie.board.color.ColorTheme;
 import fr.virtualmagpie.board.shape.HexagonProvider;
 import fr.virtualmagpie.board.shape.ShapeProvider;
 
@@ -10,9 +11,6 @@ import java.awt.*;
  */
 public class HexBoard implements Board {
 
-    private static final Color BLACK = new Color(50, 50, 50);
-    private static final Color GRAY = new Color(135, 135, 135);
-    private static final Color WHITE = new Color(220, 220, 220);
     private static final int MAX_COL = 6;
     private static final int MAX_ROW = 11;
     private static final int HEX_WIDTH = 88; // size of full hex width (so 2x side size)
@@ -20,8 +18,9 @@ public class HexBoard implements Board {
 
     private final ShapeProvider[][][] biGridShapes;
 
-    public HexBoard() {
-        this.biGridShapes = buildBiGridShapes(MAX_COL, MAX_ROW, HEX_WIDTH, HEX_HEIGHT, new Color[]{BLACK, GRAY, WHITE});
+    public HexBoard(ColorTheme colorTheme) {
+        this.biGridShapes = buildBiGridShapes(MAX_COL, MAX_ROW, HEX_WIDTH, HEX_HEIGHT,
+                new Color[]{ colorTheme.primary(), colorTheme.secondary(), colorTheme.tertiary() });
     }
 
     public void draw(Graphics2D g2) {
