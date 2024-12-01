@@ -9,7 +9,29 @@ import java.awt.*;
 /**
  * {@see https://en.wikipedia.org/wiki/Hexagonal_Efficient_Coordinate_System}
  *
- * <p>
+ * <pre>
+ *                              f11
+ *                          e10     g10
+ *                      d9      f10     h9
+ *                  c8      e9      g9      i8
+ *              b7      d8      f9      h8      k7
+ *          a6      c7      e8      g8      i7      l6
+ *              b6      d7      f8      h7      k6
+ *          a5      c6      e7      g7      i6      l5
+ *              b5      d6      f7      h6      k5
+ *          a4      c5      e6      g6      i5      l4
+ *              b4      d5      f6      h5      k4
+ *          a3      c4      e5      g5      i4      l3
+ *              b3      d4      f5      h4      k3
+ *          a2      c3      e4      g4      i3      l2
+ *              b2      d3      f4      h3      k2
+ *          a1      c2      e3      g3      i2      l1
+ *              b1      d2      f3      h2      k1
+ *                  c1      e2      g2      i1
+ *                      d1      f2      h1
+ *                          e1      g1
+ *                              f1
+ * </pre>
  */
 public class HexBoard implements Board {
 
